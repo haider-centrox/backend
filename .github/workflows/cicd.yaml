@@ -65,6 +65,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
+          set +u
           DEPLOY_DIR="${{ secrets.EC2_DEPLOY_DIR }}"
           if [ -z "$DEPLOY_DIR" ]; then
             DEPLOY_DIR="/home/ubuntu"
