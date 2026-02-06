@@ -72,11 +72,11 @@ jobs:
             echo "${{ secrets.GHCR_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             sudo docker stop backend || true
             sudo docker rm backend || true
-            sudo docker pull $IMAGE_NAME:latest
+            sudo docker pull ghcr.io/haider-centrox/backend:latest
             sudo docker run -d -p 3001:3001 \
               -e MONGODB_URI="${{ secrets.MONGODB_URI }}" \
               -e FRONTEND_URL="http://${{ secrets.EC2_HOST }}:3000" \
               --name backend \
               --restart unless-stopped \
-              $IMAGE_NAME:latest
+              ghcr.io/haider-centrox/backend:latest
           ENDSSH
