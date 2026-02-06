@@ -65,14 +65,9 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          DEPLOY_DIR="${{ secrets.EC2_DEPLOY_DIR }}"
-          if [ -z "$DEPLOY_DIR" ]; then
-            DEPLOY_DIR="/home/ubuntu"
-          fi
-
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} <<'ENDSSH'
             set -euo pipefail
-            cd "$DEPLOY_DIR"
+            cd /home/ubuntu
 
             echo "${{ secrets.GHCR_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             sudo docker stop backend || true
