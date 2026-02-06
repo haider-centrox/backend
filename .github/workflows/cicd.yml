@@ -80,3 +80,26 @@ jobs:
               --restart unless-stopped \
               ghcr.io/haider-centrox/backend:latest
           ENDSSH
+
+      - name: Send deployment alert
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "[Deployment] Backend updated - ${{ github.sha }}"
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: "haider.ali.centrox@gmail.com"
+          body: |
+            🟢 Backend deployment completed
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Host: ${{ secrets.EC2_HOST }}
+            Container: backend
+            Image: ghcr.io/haider-centrox/backend:latest
+            Status: ${{ job.status }}
+          priority: high
+        continue-on-error: true
