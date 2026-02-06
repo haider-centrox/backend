@@ -3,9 +3,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const allowedOrigins = process.env.FRONTEND_URL
-    ? process.env.FRONTEND_URL.split(',').map((s) => s.trim())
-    : ['http://localhost:3000'];
+  const allowedOrigins = [
+    'http://ec2-3-15-229-133.us-east-2.compute.amazonaws.com:3000',
+  ];
   app.enableCors({
     origin: allowedOrigins,
     credentials: true,
